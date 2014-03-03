@@ -1,0 +1,14 @@
+# This is the original file containing the details of course ABC.
+# In some instances multiple acceptable formats are shown.
+
+ABC for Dummies (Prof. Anton)
+	Anna Something
+		Mo, 3. DS, WIL C104
+	Berta Another Someone
+		Monday,2,WIL C105
+		Dienstag, 7.,  WIL C104
+
+# Note that Berta will be sorted first (and recieve a smaller code)
+# because her first exercise comes first.
+
+# Another course could also easily be included in this file.

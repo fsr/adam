@@ -1,0 +1,12 @@
+# Additional course (see course_abc.txt)
+
+Course XYZ (Prof. Xaver)
+	Anon
+		Fr, 2.DS, SE1-101
+#Z Omega Whatever (N/A)
+#	No onea
+#		Mo,1,Nowhere
+#	No oneb
+#		Mo,3,Nowhere
+#	No onec
+#		Mo,2,Nowhere

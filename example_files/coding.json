@@ -1,0 +1,55 @@
+[
+	{
+		"name": "ABC for dummies",
+		"lecturer": "Prof. Anton",
+		"tutors": [
+			{
+				"firstname": "Berta Another",
+				"lastname": "Someone",
+				"code": 1,
+				"exercises": [
+					{
+						"day": 0,
+						"time": 2,
+						"place": "WIL C105"
+					},
+					{
+						"day": 1,
+						"time": 7,
+						"place": "WIL C104"
+					}
+				]
+			},
+			{
+				"firstname": "Anna",
+				"lastname": "Something",
+				"code": 2,
+				"exercises": [
+					{
+						"day": 0,
+						"time": 3,
+						"place": "WIL C104"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Course XYZ",
+		"lecturer": "Prof. Xaver",
+		"tutors": [
+			{
+				"firstname": "",
+				"lastname": "Anon",
+				"code": 1,
+				"exercises": [
+					{
+						"day": 4,
+						"time": 2,
+						"place": "SE1-101"
+					}
+				]
+			}
+		]
+	}
+]
