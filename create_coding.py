@@ -1,12 +1,10 @@
 #!/usr/bin/python3
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 import json
-
-# prepare courses list
-courses = []
 
 def parse_course_data_from_file(filename):
 	# Tail-recursionesque ideas for the win.
+	courses = []
 	with open(filename, "r") as course_file:
 		for line in course_file:
 			# Remove newline at the end
@@ -65,20 +63,50 @@ def parse_course_data_from_file(filename):
 		for tutor in course["tutors"]:
 			tutor["code"] = code
 			code += 1
+			
+	return courses
 
 class GenerateCodingWindow(Gtk.Window):
 	def __init__(self):
 		Gtk.Window.__init__(self, title="Generate coding")
 		
+		# HeaderBar
+		
+		self.hb = Gtk.HeaderBar()
+		self.hb.props.show_close_button = True
+		self.hb.props.title = "HeaderBar example"
+		self.set_titlebar(self.hb)
+		
+		self.choose_file_button = Gtk.Button()
+		icon = Gio.ThemedIcon(name="document-open")
+		image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+		self.choose_file_button.add(image)
+		self.choose_file_button.connect("clicked", self.choose_file_click)
+		self.hb.pack_start(self.choose_file_button)
+		
+		# Lower Grid
+		
+		self.table = Gtk.Grid()
+		self.table.set_column_homogeneous(True)
+		self.add(self.table)
+		
+		self.file_list = Gtk.TreeView()
+		self.file_list.set_vexpand(True)
+		self.table.attach(self.file_list, 0, 0, 1, 1)
+		
+		self.scrolledwindow = Gtk.ScrolledWindow()
+		self.scrolledwindow.set_hexpand(True)
+		self.scrolledwindow.set_vexpand(True)
+		self.json_text = Gtk.TextView()
+		self.json_text.set_vexpand(True)
+		self.scrolledwindow.add(self.json_text)
+		self.table.attach(self.scrolledwindow, 1, 0, 1, 1)
+		
 		self.file_choice_box = Gtk.Box(spacing=6)
-		self.add(self.file_choice_box)
+		self.table.attach(self.file_choice_box, 0, 1, 2, 1)
 		
 		self.filename_entry = Gtk.Entry(text="example_files/course_abc.txt")
 		self.file_choice_box.pack_start(self.filename_entry, True, True, 0)
-		
-		self.choose_file_button = Gtk.Button(label="...")
-		self.choose_file_button.connect("clicked", self.choose_file_click)
-		self.file_choice_box.pack_start(self.choose_file_button, True, True, 0)
 		
 		self.load_courses_button = Gtk.Button(label="Load")
 		self.load_courses_button.connect("clicked", self.load_courses)
@@ -87,6 +115,7 @@ class GenerateCodingWindow(Gtk.Window):
 		self.generate_coding_button = Gtk.Button(label="Generate coding")
 		self.generate_coding_button.connect("clicked", self.print_coding)
 		self.file_choice_box.pack_start(self.generate_coding_button, True, True, 0)
+		
 
 	def choose_file_click(self, widget):
 		dialog = Gtk.FileChooserDialog("Choose course file", self,
@@ -112,7 +141,7 @@ def show_coding_window():
 	win.show_all()
 	Gtk.main()
 
-#show_coding_window()
-parse_course_data_from_file("example_files/course_abc.txt")
-parse_course_data_from_file("example_files/course_xyz.txt")
+show_coding_window()
+courses = parse_course_data_from_file("example_files/course_abc.txt")
+courses.extend(parse_course_data_from_file("example_files/course_xyz.txt"))
 print(json.dumps(courses, indent=4, sort_keys=True))
