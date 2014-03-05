@@ -8,7 +8,7 @@ class GenerateCodingWindow(Gtk.Window):
 	
 	def __init__(self):
 		Gtk.Window.__init__(self, title="Coding generation")
-		self.set_size_request(800, 600)
+		self.set_default_size(800, 600)
 		
 		# HeaderBar
 		
@@ -33,6 +33,13 @@ class GenerateCodingWindow(Gtk.Window):
 		self.choose_file_button.connect("clicked", self.choose_file_click)
 		self.hb.pack_start(self.choose_file_button)
 		
+		self.save_json_button = Gtk.Button()
+		icon = Gio.ThemedIcon(name="document-save")
+		image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+		self.save_json_button.add(image)
+		self.save_json_button.connect("clicked", self.save_json_click)
+		self.hb.pack_start(self.save_json_button)
+		
 		# Lower Grid
 		
 		self.paned = Gtk.Paned()
@@ -51,8 +58,10 @@ class GenerateCodingWindow(Gtk.Window):
 		self.scrolledwindow = Gtk.ScrolledWindow()
 		self.scrolledwindow.set_hexpand(True)
 		self.scrolledwindow.set_vexpand(True)
-		self.json_text = Gtk.TextView()
+		self.json_text = Gtk.Label()
+		self.json_text.set_hexpand(True)
 		self.json_text.set_vexpand(True)
+		self.json_text.set_justify(Gtk.Justification.LEFT)
 		self.scrolledwindow.add(self.json_text)
 		self.paned.pack2(self.scrolledwindow)
 	
@@ -64,7 +73,7 @@ class GenerateCodingWindow(Gtk.Window):
 			icon = Gio.ThemedIcon(name="view-fullscreen")
 			self.unmaximize()
 		button.set_image(Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON))
-		
+	
 	def window_state_changed(self, window, event):
 		if event.changed_mask == Gdk.WindowState.MAXIMIZED:
 			if event.new_window_state & Gdk.WindowState.MAXIMIZED:
@@ -72,11 +81,11 @@ class GenerateCodingWindow(Gtk.Window):
 			else:
 				self.maximize_button.set_active(False)
 		return False
-
+	
 	def refresh_json_output(self, filename):
 		self.courses.extend(create_coding.parse_course_data_from_file(filename))
-		self.json_text.get_buffer().set_text(create_coding.prettyprint_json(self.courses))
-		
+		self.json_text.set_text(create_coding.prettyprint_json(self.courses))
+	
 	def choose_file_click(self, widget):
 		dialog = Gtk.FileChooserDialog("Choose course file", self,
 			Gtk.FileChooserAction.OPEN,
@@ -86,6 +95,18 @@ class GenerateCodingWindow(Gtk.Window):
 		if response == Gtk.ResponseType.OK:	
 			self.file_list_store.append([dialog.get_filename()[::-1].split("/",1)[0][::-1]])
 			self.refresh_json_output(dialog.get_filename())
+		
+		dialog.destroy()
+	
+	def save_json_click(self, widget):
+		dialog = Gtk.FileChooserDialog("Choose course file", self,
+			Gtk.FileChooserAction.SAVE,
+			(Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+		
+		response = dialog.run()
+		if response == Gtk.ResponseType.OK:	
+			with open(dialog.get_filename(), 'w') as f:
+				f.write(self.json_text.get_text())
 		
 		dialog.destroy()
 

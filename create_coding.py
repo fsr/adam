@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import json
+import argparse
 
 def parse_course_data_from_file(filename):
 	# Tail-recursionesque ideas for the win.
@@ -45,8 +46,8 @@ def parse_course_data_from_file(filename):
 			else: raise Exception("Weekday '" + exercise[0] + "' is not valid")
 			
 			courses[-1]["tutors"][-1]["exercises"].append(
-				{"day": weekday, "time": int(exercise[1].strip()[:1]), "place": exercise[2].strip()});
-		
+				{"day": weekday, "time": int(exercise[1].strip()[:1]), "place": exercise[2].strip()})
+	
 	# Gonna use this soon.		
 	def exercise_timevalue(e):
 		return e["day"]*24 + e["time"] # 24 is rather arbitrary
@@ -64,15 +65,26 @@ def parse_course_data_from_file(filename):
 			code += 1
 			
 	return courses
-	
+
 def prettyprint_json(courses):
 	return json.dumps(courses, indent=4, sort_keys=True)
-	
-def cli_main():
-	print("Please use the GUI for now.")
-	#courses = parse_course_data_from_file("example_files/course_abc.txt")
-	#courses.extend(parse_course_data_from_file("example_files/course_xyz.txt"))
-	#prettyprint_json(courses)
 
 if __name__ == '__main__':
-	cli_main()
+	# CLI argument parsing
+	parser = argparse.ArgumentParser(description="Create JSON coding from plain text files.")
+	parser.add_argument('inputfiles', nargs='+', metavar="inputfile")
+	parser.add_argument("-o", "--output", nargs=1, metavar="outputfile")
+	args = parser.parse_args()
+	
+	# coding construction
+	courses = []
+	for inputfilename in args.inputfiles:
+		courses.extend(parse_course_data_from_file(inputfilename))
+	json_coding = prettyprint_json(courses)
+	
+	# output action
+	if not args.output:
+		print(json_coding)
+	else:
+		with open(args.output[0], 'w') as f:
+			f.write(json_coding)
