@@ -2,6 +2,11 @@
 import json
 import argparse
 
+def parse_questions_from_file(filename):
+	questions = ["foo"]
+	
+	return questions
+
 def parse_course_data_from_file(filename):
 	# Tail-recursionesque ideas for the win.
 	courses = []
@@ -48,7 +53,7 @@ def parse_course_data_from_file(filename):
 			courses[-1]["tutors"][-1]["exercises"].append(
 				{"day": weekday, "time": int(exercise[1].strip()[:1]), "place": exercise[2].strip()})
 	
-	# Gonna use this soon.		
+	# Gonna use this soon.
 	def exercise_timevalue(e):
 		return e["day"]*24 + e["time"] # 24 is rather arbitrary
 				
@@ -66,23 +71,31 @@ def parse_course_data_from_file(filename):
 			
 	return courses
 
-def prettyprint_json(courses):
-	return json.dumps(courses, indent=4, sort_keys=True)
+def course_file_list_to_json(filelist):
+	courses = []
+	for fn in filelist:
+		courses.extend(parse_course_data_from_file(fn))
+	return prettyprint_json(courses)
+
+def prettyprint_json(data):
+	return json.dumps(data, indent=4, sort_keys=True)
 
 if __name__ == '__main__':
 	# CLI argument parsing
-	parser = argparse.ArgumentParser(description="Create JSON coding from plain text files.")
-	parser.add_argument('inputfiles', nargs='+', metavar="inputfile")
-	parser.add_argument("-o", "--output", nargs=1, metavar="outputfile")
+	parser = argparse.ArgumentParser(
+		description="Create JSON coding for courses (or optionally questions) from plain text files.")
+	parser.add_argument("-t", "--type", choices=["courses", "questions"],
+		default="courses", help="data that is to be parsed (default: courses)")
+	parser.add_argument('inputfiles', nargs='+', metavar="inputfile", help="plain text data file(s)")
+	parser.add_argument("-o", "--output", nargs=1, help="JSON file the output is to be stored in")
+	
 	args = parser.parse_args()
 	
-	# coding construction
-	courses = []
-	for inputfilename in args.inputfiles:
-		courses.extend(parse_course_data_from_file(inputfilename))
-	json_coding = prettyprint_json(courses)
+	if args.type == "questions":
+		json_coding = prettyprint_json(parse_questions_from_file((args.inputfiles)))
+	else:
+		json_coding = course_file_list_to_json(args.inputfiles)
 	
-	# output action
 	if not args.output:
 		print(json_coding)
 	else:
