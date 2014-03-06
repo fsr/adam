@@ -2,7 +2,7 @@
 
 Course XYZ (Prof. Xaver)
 	Anon
-		Fr, 2.DS, SE1-101
+		Fri, 2.DS, SE1-101
 #Z Omega Whatever (N/A)
 #	No onea
 #		Mo,1,Nowhere

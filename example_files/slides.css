@@ -1,0 +1,36 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	text-align: center;
+	font-family: Helvetica, Arial, Dejavu Sans, Liberation Sans, Open Sans, sans;
+	margin: 1em;
+}
+h1, h2, table {
+	text-align: left;
+	width: 100%;
+	border-collapse: collapse;
+}
+h2 {
+	margin-bottom: 2em;
+}
+th, td {
+	text-align: left;
+	padding: .2em;
+	padding-left: .4em;
+}
+td {
+	border: .1em solid black;
+}
+
+.codingcell {
+	text-align: center;
+	width: 1.1em;
+}
+.notfilled {
+	background-color: white;
+}
+.filled {
+	box-shadow: inset 10em 10em 0 10em black;
+}
