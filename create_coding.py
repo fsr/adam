@@ -43,11 +43,11 @@ def parse_course_data_from_file(filename):
 			exercise = line.strip().split(",",-1)
 			if len(exercise) != 3: raise Exception("Line '" + line + "'is not a valid exercise")
 			
-			if   exercise[0] in ["Monday",    "Montag",     "Mo", "Mo"]: weekday = 0
-			elif exercise[0] in ["Tuesday",   "Dienstag",   "Tu", "Di"]: weekday = 1
-			elif exercise[0] in ["Wednesday", "Mittwoch",   "We", "Mi"]: weekday = 2
-			elif exercise[0] in ["Thursday",  "Donnerstag", "Th", "Do"]: weekday = 3
-			elif exercise[0] in ["Friday",    "Freitag",    "Fr", "Fr"]: weekday = 4
+			if   exercise[0] in ["Monday",    "Montag",     "Mo", "Mo", "Mon"]: weekday = 0
+			elif exercise[0] in ["Tuesday",   "Dienstag",   "Tu", "Di", "Tue"]: weekday = 1
+			elif exercise[0] in ["Wednesday", "Mittwoch",   "We", "Mi", "Wed"]: weekday = 2
+			elif exercise[0] in ["Thursday",  "Donnerstag", "Th", "Do", "Thu"]: weekday = 3
+			elif exercise[0] in ["Friday",    "Freitag",    "Fr", "Fr", "Fri"]: weekday = 4
 			else: raise Exception("Weekday '" + exercise[0] + "' is not valid")
 			
 			courses[-1]["tutors"][-1]["exercises"].append(
