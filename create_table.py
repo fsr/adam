@@ -1,7 +1,6 @@
 #!usr/bin/python3
 
 import sqlite3 as lite
-import sys
 
 con = lite.connect('TestDB.db')
 f = open("real_files/test_data.csv","r")
