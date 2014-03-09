@@ -48,4 +48,10 @@ Additionally these JSON files an be validated against a definition file *(also n
 
 ### Import CSV into sqlite database ###
 
-`create_table.py` *TODO: proper CLI*
+`create_table.py` takes .csv files and inserts them into a sqlite database, us it like this:
+	
+	importing a directory:
+		create_table.py -d TestDB.db dir someDirectory
+
+	importing files:
+		create_table.py -d TestDB.db file some.csv someOther.csv
