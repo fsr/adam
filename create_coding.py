@@ -4,11 +4,6 @@ import argparse
 
 # Creates a course-data coding (JSON) from plain text input
 
-def parse_questions_from_file(filename):
-	questions = ["foo"]
-	# TODO (obviously)
-	return questions
-
 def parse_course_data_from_file(f):
 	# Tail-recursionesque ideas for the win.
 	courses = []
@@ -85,18 +80,13 @@ def prettyprint_json(data):
 if __name__ == '__main__':
 	# CLI argument parsing
 	parser = argparse.ArgumentParser(
-		description="Create JSON coding for courses (or optionally questions) from plain text files.")
-	parser.add_argument("-t", "--type", choices=["courses", "questions"],
-		default="courses", help="data that is to be parsed (default: courses)")
+		description="Create JSON coding for courses from plain text files.")
 	parser.add_argument('inputfiles', nargs='+', type=argparse.FileType('r'), metavar="inputfile", help="plain text data file(s)")
 	parser.add_argument("-o", "--output", type=argparse.FileType('w'), nargs=1, help="JSON file the output is to be stored in")
 	
 	args = parser.parse_args()
 	
-	if args.type == "questions":
-		json_coding = prettyprint_json(parse_questions_from_file(args.inputfiles))
-	else:
-		json_coding = course_file_list_to_json(args.inputfiles)
+	json_coding = course_file_list_to_json(args.inputfiles)
 	
 	if not args.output:
 		print(json_coding)

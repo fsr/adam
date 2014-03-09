@@ -3,7 +3,7 @@ Adam
 
 Adam is a tool usable for the teaching evaluation at the TU Dresden.
 This version is completely rewritten using Python3 based on the most simple and basic requirements.
-A basic GUI written for GTK3 is available.
+A basic GUI written for GTK3 is available for parts of the functionality.
 
 Usage
 -----
@@ -16,11 +16,13 @@ Usage
 This JSON data can be printed to stdout:
 
     # Create coding from one or multiple plain text files
-    create_coding.py course_abc.txt course_xyz.txt > file.json
+    create_coding.py course_abc.txt course_xyz.txt
 
 Alternatively you can specify a file to save to save the coding to:
 
     create_coding.py course_abc.txt course_xyz.txt -o file.json
+
+This stdout/output-choice also exists in other modules.
 
 If you want to / can use the GUI, simply call `coding_gui.py`:
 
@@ -36,6 +38,13 @@ either a simple plain text file
 or a fancy html table (that can be used for printing and showing in the lectures)
 
     export_coding.py html -o outfile.htm -s example_files/slides.css coding.json
+
+### Prepare question data ###
+
+`json_questions.py` can load a plain text question form definition *(example not yet publicly available)* and convert it into a processable JSON file.
+Additionally these JSON files an be validated against a definition file *(also not yet available)*.
+
+    json_questions.py -o questions.json -d answertypesdefintion.json questions.txt
 
 ### Import CSV into sqlite database ###
 

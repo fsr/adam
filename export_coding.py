@@ -35,7 +35,7 @@ def print_as_html(coursedata, cssfile):
 				extext = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][exercise["day"]]
 				extext += ", {}. DS, {}".format(exercise["time"], exercise["place"])
 				codecells = "";
-				for char in "{:0>5}".format(bin(tutor["code"])[2:]):
+				for char in get_result.get_binary_code():
 					if char == "0": filledclass = "notfilled"
 					else: filledclass = "filled"
 					codecells += "<td class=\"codingcell {}\"></td>".format(filledclass)
