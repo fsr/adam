@@ -1,0 +1,80 @@
+[
+	{
+		"type": "correctness",
+		"answers": [
+			"completely correct",
+			"mainly correct",
+			"partly",
+			"mainly incorrect",
+			"completely incorrect"
+		]
+	},
+	{
+		"type": "scale",
+		"answers": [
+			"way too extensive/fast/large",
+			"too extensive/fast/large",
+			"optimal",
+			"too limited/slow/small",
+			"way too limited/slow/small"
+		]
+	},
+	{
+		"type": "number",
+		"answers": [
+			"never/0",
+			"1x/up to 1",
+			"2x/up to 2",
+			"3x/up to 3",
+			"more/more"
+		]
+	},
+	{
+		"type": "usage",
+		"answers": [
+			"Yes, to a high degree.",
+			"Yes, sufficiently.",
+			"Yes, but too little.",
+			"No aids are used."
+		]
+	},
+	{
+		"type": "binary",
+		"answers": [
+			"yes",
+			"no"
+		]
+	},
+	{
+		"type": "sex",
+		"answers": [
+			"male",
+			"female"
+		]
+	},
+	{
+		"type": "degree",
+		"answers": [
+			"CL",
+			"CE",
+			"IST",
+			"Lehramt",
+			"Informatik Diplom",
+			"Informatik Bachelor",
+			"Medieninformatik Bachelor",
+			"Medieninformatik Diplom",
+			"Other"
+		]
+	},
+	{
+		"type": "semester",
+		"answers": [
+			"1./2.",
+			"3./4.",
+			"5./6.",
+			"7./8.",
+			"9./10.",
+			">10"
+		]
+	}
+]
