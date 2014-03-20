@@ -44,7 +44,7 @@ or a fancy html table (that can be used for printing and showing in the lectures
 `json_questions.py` can load a plain text question form definition and convert it into a processable JSON file.
 Additionally these JSON files an be validated against a answer type definition file.
 
-	json_questions.py -o questions.json -d example_files/eva_answertypes.json example_files/eva_questions_pre_SS14
+	json_questions.py -o eva_questions_pre_SS14.json -d example_files/eva_answertypes.json example_files/eva_questions_pre_SS14
 
 ### Import CSV into sqlite database ###
 
@@ -55,3 +55,14 @@ Additionally these JSON files an be validated against a answer type definition f
 
 	# importing files:
 	create_table.py -d TestDB.db file some.csv someOther.csv
+
+### Generate renderable report ###
+
+`construct_report.py` takes lots of files to generate a "renderable" (you guessed it) JSON file
+containing all information that is needed to render a report:
+
+	construct_report.py -r example_files/simplereport_model.json \
+	                    -q example_files/eva_questions_pre_SS14.json \
+	                    -a example_files/eva_answertypes.json \
+	                    -d TestDB.db \
+	                    -c HerrProfMustermannVKursXYZCSV

@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 
 import sqlite3 as lite
 import argparse
@@ -34,7 +34,7 @@ def insert_directory(directory,database):
 	for root,dirs,files in os.walk(directory):
 		for fil in files:
 			if fil.endswith(".CSV"):
-				filePath = "{}\{}".format(root,fil)
+				filePath = os.path.join(root,fil)
 				tableName = re.sub('[\W_]+','',fil)
 				create_table(tableName, filePath, database)
 
