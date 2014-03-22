@@ -8,6 +8,16 @@
 				"type": "eq",
 				"key": "Geschlecht",
 				"value": "1"
+			},
+			{
+				"type": "fu",
+				"key": "fooooo",
+				"value": "4"
+			},
+			{
+				"type": "eq",
+				"key": "?code",
+				"value": "4"
 			}
 		],
 		"comment": "Answers from female students for question 1 as a bar diagram"

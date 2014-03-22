@@ -35,7 +35,7 @@ def construct_report(reportdef, questionsdef, answersdef, dbname, coursename):
 		else:
 			# Cut away the first (answer=0 in the CSV is only for meta-questions)
 			# and last (empty answer) element of the list (add later if wanted for something...)
-			answersums = get_result.get_question(dbname, coursename, questionname, "1=1", len(choices) + na_answer)[1:-1]
+			answersums = get_result.get_question(dbname, coursename, questionname, definition["filter"], len(choices) + na_answer)[1:-1] #TODO: Test the change
 			print(answersums)
 			renderable = {"question": question["text"], "view": definition["view"], "comment": definition["comment"], "answers": []}
 			for i in range(len(choices)):
