@@ -1,0 +1,235 @@
+[
+    {
+        "name": "F1", 
+        "text": "Die Ziele der Vorlesung sind klar erkennbar.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F2", 
+        "text": "Der Aufbau der gesamten Vorlesung ist gut nachvollziehbar.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F3", 
+        "text": "Die Lehrperson gliedert die einzelnen Vorlesungen gut.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F4", 
+        "text": "Durch die Vorlesung habe ich viel gelernt.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F5", 
+        "text": "Die Lehrperson motiviert zum weiterf\u00fchrenden Selbststudium.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F6", 
+        "text": "Die Lehrperson wirkt immer gut vorbereitet.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F7", 
+        "text": "Der Vortragsstil der Lehrperson ist ansprechend.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F8", 
+        "text": "Die Lehrperson kann komplizierte Sachverhalte verst\u00e4ndlich machen.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F9", 
+        "text": "Die Lehrperson steht f\u00fcr R\u00fcckfragen zur Verf\u00fcgung.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F10", 
+        "text": "Die Lehrperson nimmt die Lehre wichtig.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F11", 
+        "text": "Die Stoffmenge der Vorlesung ist:", 
+        "type": "scale"
+    }, 
+    {
+        "name": "F12", 
+        "text": "Das Tempo der Lehrperson ist:", 
+        "type": "scale"
+    }, 
+    {
+        "name": "F13", 
+        "text": "Der Raum ist f\u00fcr die Teilnehmerzahl der Vorlesung", 
+        "type": "scale"
+    }, 
+    {
+        "name": "F14", 
+        "text": "Wie oft haben Sie bisher in diesem Semester in dieser V. gefehlt?", 
+        "type": "number"
+    }, 
+    {
+        "answers": [
+            "musste jobben", 
+            "war krank", 
+            "verhindert wegen einer anderen Veranstaltung", 
+            "verschlafen", 
+            "geringes Interesse", 
+            "verhindert wegen Gremienarbeit", 
+            "andere Gr\u00fcnde"
+        ], 
+        "name": "F15", 
+        "text": "Warum haben Sie gefehlt?", 
+        "type": "?"
+    }, 
+    {
+        "name": "F16_a", 
+        "text": "Wie viele Stunden haben Sie pro Woche im Schnitt investiert?", 
+        "type": "number"
+    }, 
+    {
+        "name": "F16_b", 
+        "text": "Wie viele Stunden w\u00e4ren nach Ihrer Sch\u00e4tzung eigentlich notwendig?", 
+        "type": "number"
+    }, 
+    {
+        "answers": [
+            "Pflichtveranstaltung", 
+            "studium generale", 
+            "Scheinerwerb/ Klausur", 
+            "Stoff ist relevant f\u00fcr Zwischen- /Abschlusspr\u00fcfung", 
+            "aus pers\u00f6nlichem Interesse am Stoff", 
+            "wegen der Lehrperson", 
+            "andere Besuchsgr\u00fcnde"
+        ], 
+        "name": "F17", 
+        "text": "Aus welchen Gr\u00fcnden besuchen Sie diese Vorlesung?", 
+        "type": "?"
+    }, 
+    {
+        "name": "F18", 
+        "text": "Die f\u00fcr die Vorlesung notwendige Literatur ist in der Bibliothek verf\u00fcgbar", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F19", 
+        "text": "Wird die V. durch den Einsatz von Hilfsmitteln unterst\u00fctzt?", 
+        "type": "usage"
+    }, 
+    {
+        "name": "F20_a", 
+        "text": "Die in der Vorlesung zur optischen Pr\u00e4sentation des Stoffes eingesetzten Hilfsmittel tragen gut zum besseren Verst\u00e4ndnis des Lehrstoffes bei.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F20_b", 
+        "text": "Die in der Vorlesung zur optischen Pr\u00e4sentation des Stoffes eingesetzten Hilfsmittel sind gut erkennbar.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F20_c", 
+        "text": "Die in der Vorlesung zur optischen Pr\u00e4sentation des Stoffes eingesetzten Hilfsmittel sind inhaltlich \u00fcbersichtlich.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F20_d", 
+        "text": "Die in der Vorlesung zur optischen Pr\u00e4sentation des Stoffes eingesetzten Hilfsmittel sind gut auf die Vorlesung abgestimmt.", 
+        "type": "correctness"
+    }, 
+    {
+        "name": "F21", 
+        "text": "Die Lehrperson bietet ausreichend M\u00f6glichkeiten zu Beratung an.", 
+        "type": "binary+"
+    }, 
+    {
+        "name": "F22", 
+        "text": "Ich bin mit der Betreuung durch die Lehrperson zufrieden.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "a6", 
+        "text": "-", 
+        "type": "tc16"
+    }, 
+    {
+        "name": "b6", 
+        "text": "-", 
+        "type": "tc8"
+    }, 
+    {
+        "name": "c6", 
+        "text": "-", 
+        "type": "tc4"
+    }, 
+    {
+        "name": "d6", 
+        "text": "-", 
+        "type": "tc2"
+    }, 
+    {
+        "name": "e6", 
+        "text": "-", 
+        "type": "tc1"
+    }, 
+    {
+        "name": "F23", 
+        "text": "Die Stoffmenge der \u00dcbung ist:", 
+        "type": "scale+"
+    }, 
+    {
+        "name": "F24", 
+        "text": "Der Schwierigkeitsgrad der \u00dcbung ist:", 
+        "type": "scale+"
+    }, 
+    {
+        "name": "F25", 
+        "text": "Das Tempo der \u00dcbung ist:", 
+        "type": "scale+"
+    }, 
+    {
+        "name": "F26", 
+        "text": "Vorlesung und \u00dcbung sind gut aufeinander abgestimmt.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F27", 
+        "text": "Der/Die \u00dcL wirkt gut vorbereitet.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F28", 
+        "text": "Die Studierenden k\u00f6nnen der \u00dcbung gut folgen.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F29", 
+        "text": "Der/Die \u00dcL kann komplizierte Sachverhalte verst\u00e4ndlich machen.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F30", 
+        "text": "Die Gestaltung der \u00dcbung ist motivierend.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "F31", 
+        "text": "Die Anzahl der angebotenen \u00dcbungen ist ausreichend.", 
+        "type": "correctness+"
+    }, 
+    {
+        "name": "Geschlecht", 
+        "text": "Ihr Geschlecht:", 
+        "type": "sex"
+    }, 
+    {
+        "name": "Abschluss_62826", 
+        "text": "Im Rahmen welches Studiengangs besuchen Sie diese Vorlesung?", 
+        "type": "degree"
+    }, 
+    {
+        "name": "Fachsemester", 
+        "text": "Fachsemester:", 
+        "type": "semester"
+    }
+]

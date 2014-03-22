@@ -1,0 +1,79 @@
+# TU Dresden EVA questions (pre SS14)
+# These questions and the corresponding answer types (see eva_questiontypes.json)
+# are property of the TU Dresden ZQA and not part of this software, for further information visit
+# http://tu-dresden.de/die_tu_dresden/zentrale_einrichtungen/zqa/qa/
+
+# This is a CSV-like file with the first two commas bearing significance.
+
+# Additional notes about types:
+#   * '+' after a type signifies the additional existence of the "cannot judge"-option
+#   * However, fields can be empty in the CSV, so there is always an additional "no answer"-option
+#   * Multiple-Answers-Binary-Questions are handled like this:
+#        * Each of the pseudo-questions is prepended has the type '!F<N>'
+#        * A new question called F<N> with type '?' is added
+#        * The ?-meta-question has to precede the answers!
+#        * The numbers of the sub-questions are irrelevant, the order matters!
+#   * 'tc16', 'tc8', ..., 'tc1' are used to calculate the tutor coding
+#     The content of the question is irrelevant (signify however you want).
+
+# Additional notes about the created JSON:
+#   * All entrys have a "name", "type" and "text".
+#     Multiple-Answers-Questions also have an "answers" array containing the answer strings.
+
+F1,    correctness,  Die Ziele der Vorlesung sind klar erkennbar.
+F2,    correctness,  Der Aufbau der gesamten Vorlesung ist gut nachvollziehbar.
+F3,    correctness,  Die Lehrperson gliedert die einzelnen Vorlesungen gut.
+F4,    correctness,  Durch die Vorlesung habe ich viel gelernt.
+F5,    correctness,  Die Lehrperson motiviert zum weiterführenden Selbststudium.
+F6,    correctness,  Die Lehrperson wirkt immer gut vorbereitet.
+F7,    correctness,  Der Vortragsstil der Lehrperson ist ansprechend.
+F8,    correctness,  Die Lehrperson kann komplizierte Sachverhalte verständlich machen.
+F9,    correctness,  Die Lehrperson steht für Rückfragen zur Verfügung.
+F10,   correctness,  Die Lehrperson nimmt die Lehre wichtig.
+F11,   scale,        Die Stoffmenge der Vorlesung ist:
+F12,   scale,        Das Tempo der Lehrperson ist:
+F13,   scale,        Der Raum ist für die Teilnehmerzahl der Vorlesung
+F14,   number,       Wie oft haben Sie bisher in diesem Semester in dieser V. gefehlt?
+F15,   ?,            Warum haben Sie gefehlt?
+F15_1, !F15,         musste jobben
+F15_2, !F15,         war krank
+F15_3, !F15,         verhindert wegen einer anderen Veranstaltung
+F15_4, !F15,         verschlafen
+F15_5, !F15,         geringes Interesse
+F15_6, !F15,         verhindert wegen Gremienarbeit
+F15_7, !F15,         andere Gründe
+F16_a, number,       Wie viele Stunden haben Sie pro Woche im Schnitt investiert?
+F16_b, number,       Wie viele Stunden wären nach Ihrer Schätzung eigentlich notwendig?
+F17,   ?,            Aus welchen Gründen besuchen Sie diese Vorlesung?
+F17_1, !F17,         Pflichtveranstaltung
+F17_2, !F17,         studium generale
+F17_3, !F17,         Scheinerwerb/ Klausur
+F17_4, !F17,         Stoff ist relevant für Zwischen- /Abschlussprüfung
+F17_5, !F17,         aus persönlichem Interesse am Stoff
+F17_6, !F17,         wegen der Lehrperson
+F17_7, !F17,         andere Besuchsgründe
+F18,   correctness+, Die für die Vorlesung notwendige Literatur ist in der Bibliothek verfügbar
+F19,   usage,        Wird die V. durch den Einsatz von Hilfsmitteln unterstützt?
+F20_a, correctness,  Die in der Vorlesung zur optischen Präsentation des Stoffes eingesetzten Hilfsmittel tragen gut zum besseren Verständnis des Lehrstoffes bei.
+F20_b, correctness,  Die in der Vorlesung zur optischen Präsentation des Stoffes eingesetzten Hilfsmittel sind gut erkennbar.
+F20_c, correctness,  Die in der Vorlesung zur optischen Präsentation des Stoffes eingesetzten Hilfsmittel sind inhaltlich übersichtlich.
+F20_d, correctness,  Die in der Vorlesung zur optischen Präsentation des Stoffes eingesetzten Hilfsmittel sind gut auf die Vorlesung abgestimmt.
+F21,   binary+,      Die Lehrperson bietet ausreichend Möglichkeiten zu Beratung an.
+F22,   correctness+, Ich bin mit der Betreuung durch die Lehrperson zufrieden.
+a6,    tc16,         -
+b6,    tc8,          -
+c6,    tc4,          -
+d6,    tc2,          -
+e6,    tc1,          -
+F23,   scale+,       Die Stoffmenge der Übung ist:
+F24,   scale+,       Der Schwierigkeitsgrad der Übung ist:
+F25,   scale+,       Das Tempo der Übung ist:
+F26,   correctness+, Vorlesung und Übung sind gut aufeinander abgestimmt.
+F27,   correctness+, Der/Die ÜL wirkt gut vorbereitet.
+F28,   correctness+, Die Studierenden können der Übung gut folgen.
+F29,   correctness+, Der/Die ÜL kann komplizierte Sachverhalte verständlich machen.
+F30,   correctness+, Die Gestaltung der Übung ist motivierend.
+F31,   correctness+, Die Anzahl der angebotenen Übungen ist ausreichend.
+Geschlecht, sex, Ihr Geschlecht:
+Abschluss_62826, degree, Im Rahmen welches Studiengangs besuchen Sie diese Vorlesung?
+Fachsemester, semester, Fachsemester:

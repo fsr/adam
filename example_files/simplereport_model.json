@@ -5,8 +5,8 @@
 		"question": "F1",
 		"filter": [
 			{
-				"type": "eq"
-				"key": "Geschlecht"
+				"type": "eq",
+				"key": "Geschlecht",
 				"value": "1"
 			}
 		],
@@ -18,8 +18,8 @@
 		"question": "F27",
 		"filter": [
 			{
-				"type": "eq"
-				"key": "?code"
+				"type": "eq",
+				"key": "?code",
 				"value": "4"
 			}
 		],

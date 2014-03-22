@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 
 import sqlite3 as lite
 
@@ -34,7 +34,7 @@ def get_question(database,table,question,whereString,numberoftypes):
 			result.append(0)
 
 		for x, in values:
-			if x is not '':
+			if not x == '':
 				result[x] += 1
 			else:
 				result[types] += 1
