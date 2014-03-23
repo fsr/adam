@@ -9,7 +9,7 @@ def get_binary_code(code):
 		return "{:0>5}".format(bin(code)[2:])
 
 #returns you the whereClause you need for the sqlquery used in get_question
-def create_whereString(filters): #TODO: Test this function
+def create_whereString(filters):
 
 	optionsType = {
 		"eq" : "=",
@@ -61,17 +61,6 @@ def get_question(database,table,question,filters,numberoftypes):
 			if not x == '':
 				result[x] += 1
 			else:
-				result[types] += 1
+				result[-1] += 1
 
 		return result
-
-
-
-#TODO: Remove this Test
-with open("example_files/simplereport_model.json",'r') as f:
-	reportdef = json.load(f)
-
-
-	for definition in reportdef:
-		print(definition["filter"])
-		print(create_whereString(definition["filter"]))

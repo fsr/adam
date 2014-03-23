@@ -9,8 +9,6 @@ import create_coding
 
 # Currently reports can only be generated for one specific course.
 
-# For now it shall also include basic HTML rendering, but that is only meant to be.... temporary.
-
 def construct_report(reportdef, questionsdef, answersdef, dbname, coursename):
 	report = []
 	for definition in reportdef:
@@ -21,28 +19,39 @@ def construct_report(reportdef, questionsdef, answersdef, dbname, coursename):
 		questionname = definition["question"]
 		question = list(filter(lambda q: q["name"] == questionname, questionsdef))[0]
 		questiontype = question["type"]
-		if questiontype[-1] == "+":
-			questiontype = questiontype[:-1]
-			na_answer = 1
-		else:
-			na_answer = 0
-		questionanswerdef_as_list = list(filter(lambda a: a["type"] == questiontype, answersdef))
-		if len(questionanswerdef_as_list) == 0:
-			raise Exception("Question type '{}' has no answers definition!".format(questiontype))
-		choices = questionanswerdef_as_list[0]["answers"]
+		
 		if questiontype == "?":
-			raise Exception("Metaquestions are not yet supported.")
+			choices = question["answers"]
+			# Retrieve singleresult[1] for questionname_i (i>=1) from DB
+			i = 1
+			answersums = []
+			for answer in choices:
+				singleresult = get_result.get_question(dbname, coursename, "{}_{}".format(questionname, i), definition["filter"], 1)
+				answersums.append(singleresult[1])
+				i += 1
+			na_answer = 0
 		else:
+			if questiontype[-1] == "+":
+				questiontype = questiontype[:-1]
+				na_answer = 1
+			else:
+				na_answer = 0
+			questionanswerdef_as_list = list(filter(lambda a: a["type"] == questiontype, answersdef))
+			if len(questionanswerdef_as_list) == 0:
+				raise Exception("Question type '{}' has no answers definition!".format(questiontype))
+			choices = questionanswerdef_as_list[0]["answers"]
+			
 			# Cut away the first (answer=0 in the CSV is only for meta-questions)
 			# and last (empty answer) element of the list (add later if wanted for something...)
-			answersums = get_result.get_question(dbname, coursename, questionname, definition["filter"], len(choices) + na_answer)[1:-1] #TODO: Test the change
-			print(answersums)
-			renderable = {"question": question["text"], "view": definition["view"], "comment": definition["comment"], "answers": []}
-			for i in range(len(choices)):
-				renderable["answers"].append({"text": choices[i], "number": answersums[i]})
-			if na_answer == 1:
-				renderable["answers"].append({"text": "N/A", "number": answersums[-1]})
-			report.append(renderable)
+			answersums = get_result.get_question(dbname, coursename, questionname, definition["filter"], len(choices) + na_answer)[1:-1]
+		
+		# Build renderable from choices and answersums
+		renderable = {"question": question["text"], "view": definition["view"], "comment": definition["comment"], "answers": []}
+		for i in range(len(choices)):
+			renderable["answers"].append({"text": choices[i], "number": answersums[i]})
+		if na_answer == 1:
+			renderable["answers"].append({"text": "N/A", "number": answersums[-1]})
+		report.append(renderable)
 	return report
 
 def render_report_as_html(report):

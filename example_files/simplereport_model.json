@@ -8,16 +8,6 @@
 				"type": "eq",
 				"key": "Geschlecht",
 				"value": "1"
-			},
-			{
-				"type": "fu",
-				"key": "fooooo",
-				"value": "4"
-			},
-			{
-				"type": "eq",
-				"key": "?code",
-				"value": "4"
 			}
 		],
 		"comment": "Answers from female students for question 1 as a bar diagram"
@@ -34,5 +24,12 @@
 			}
 		],
 		"comment": "Question 27 for tutor with code 4 (00100) as a bar diagram"
+	},
+	{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F17",
+		"filter": [],
+		"comment": "Why do people take this course?"
 	}
 ]
