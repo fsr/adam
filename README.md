@@ -66,3 +66,12 @@ containing all information that is needed to render a report:
 	                    -a example_files/eva_answertypes.json \
 	                    -d TestDB.db \
 	                    -c HerrProfMustermannVKursXYZCSV
+
+### Create SVG Diagrams ###
+
+'create_view.py' takesa report.json that was created using 'construct_report.py' and outputs the created svg diagrams into a .html document.
+
+	# importing a report.json
+	create_view.py -i someReport.json -o someOutput.html
+
+
