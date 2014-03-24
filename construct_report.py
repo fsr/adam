@@ -54,9 +54,6 @@ def construct_report(reportdef, questionsdef, answersdef, dbname, coursename):
 		report.append(renderable)
 	return report
 
-def render_report_as_html(report):
-	return create_coding.prettyprint_json(report)
-
 if __name__ == '__main__':
 	# CLI argument parsing
 	parser = argparse.ArgumentParser(
@@ -78,10 +75,10 @@ if __name__ == '__main__':
 		answersdef = json.load(f)
 	
 	report = construct_report(reportdef, questionsdef, answersdef, args.database[0], args.course[0])
-	report_html = render_report_as_html(report)
+	report_json = create_coding.prettyprint_json(report)
 	
 	if not args.output:
-		print(report_html)
+		print(report_json)
 	else:
 		with open(args.output[0], 'w') as f:
-			f.write(report_html)
+			f.write(report_json)
