@@ -25,50 +25,75 @@ def sum_numbers(answers):
 
 #parameter: ctx = context Obj, height = abs. height of the dia, width = abs. width of the dia
 def create_blank_bardiagram(ctx,height,width):
-	ctx.save()
+	refPoint = ctx.get_current_point()
 
 	ctx.rel_move_to(0.1*width,0.1*height)   #TODO: Fancy arrowheads for the axis ends
 	ctx.rel_line_to(0,0.8*height)
 	ctx.rel_move_to(-0.1*width,-0.1*height)
 	ctx.rel_line_to(width,0)
+
+	ctx.move_to(*refPoint)
 	
-	ctx.restore()
+
+def textBox(ctx,height,width):
+	#TODO: Scales a text to a given box
+	return 0
+
 
 def y_axis_label(ctx,maxValue,numberOfValues,height,width):
-	ctx.save()
+	refPoint = ctx.get_current_point()
 
-	distanceMarker = (0.9*(0.7*height)) / numberOfValues 
-	differenceValue = maxValue / numberOfValues
-	value = differenceValue
+	diffMarker = (0.9*(0.7*height)) / numberOfValues 
+	diffValue = maxValue / numberOfValues
+	value = diffValue
 	ctx.rel_move_to(0.125*width,0.8*height)
 
 	for _ in range(numberOfValues):
-			ctx.save()
-
-			ctx.rel_move_to(-0.05*width,-distanceMarker)
+			ctx.rel_move_to(-0.05*width,-diffMarker)
 			ctx.rel_line_to(0.05*width,0)
 
-			ctx.restore()
+			textPoint = ctx.get_current_point()
+			ctx.rel_move_to(-0.10*width,0.007*height)
+			ctx.show_text('{}'.format(int(value)))
+			value += diffValue
+			ctx.move_to(*textPoint)
 
-	ctx.restore()
+	ctx.move_to(*refPoint)
 
-def x_axis_label(answers,height,width): 
+
+
+def x_axis_label(ctx,answers,height,width): 
 	#TODO: Implementation
 	return 0
 
-def create_bars(answers,height,width):
-	#TODO: Implementation
-	return 0
+def create_bars(ctx,answers,height,width):
+	refPoint = ctx.get_current_point()
+
+	barWidth = width*(0.7 / len(answers))
+	scaleFactor =  (0.9*(0.7*height)) /max_number(answers)
+	xCursor = refPoint[0] + (0.15*width)
+
+	for answer in answers:
+
+		barHeight = answer["number"] * scaleFactor
+		yCursor =  refPoint[1]+((0.8*height)-barHeight)
+		ctx.rectangle(xCursor,yCursor,barWidth*0.8,barHeight)
+		xCursor += barWidth
+
+	ctx.move_to(*refPoint)
+
+
 
 def create_bardiagram(ctx,question,height,width):
 	
-	ctx.rectangle(0,0,200,200)
+	curX = ctx.get_current_point()[0]
+	curY = ctx.get_current_point()[1]
 
-	ctx.move_to(0,0)
-	create_blank_bardiagram(ctx,200,200)
-	ctx.stroke()
-	ctx.move_to(0,0)
-	y_axis_label(ctx,200,4,200,200)
+	ctx.rectangle(curX,curY,height,width)
+	create_blank_bardiagram(ctx,height,width)
+	y_axis_label(ctx,max_number(question["answers"]),5,height,width)
+	create_bars(ctx,question["answers"],height,width)
+
 	ctx.stroke()
 
 	
@@ -76,10 +101,34 @@ def create_bardiagram(ctx,question,height,width):
 
 def create_report_pdf(reportJSON,outputfile):
 	mySurface = cairo.PDFSurface(outputfile,595,842)
-	myContext = cairo.Context(mySurface)
+	ctx = cairo.Context(mySurface)
+	ctx.move_to(0,0)
 
-	create_bardiagram(myContext,"Test", 100,100)
 	
+
+	with open(reportJSON) as f:
+
+		report = json.load(f)
+		curX = 0
+		curY = 0
+
+		for question in report:
+
+			create_bardiagram(ctx,question, 595/2,842/3)
+
+
+			#TODO: Put this in a function, add multiple page support
+			curX  += 595/2
+			if curX >= 595:
+				curX = 0
+				curY += 842/3
+
+			if curY >= 842:
+				print("New Page!")
+
+
+			ctx.move_to(curX,curY)
+		
 	
 
 
@@ -93,10 +142,6 @@ if __name__ == '__main__':
 	parser.add_argument("-o","--output", nargs=1, help="The output .pdf file", required=True)
 
 	args = parser.parse_args()
-
-	
-
-
 
 	create_report_pdf(args.input[0],args.output[0])
 
