@@ -3,7 +3,7 @@ Adam
 
 Adam is a tool usable for the teaching evaluation at the TU Dresden.
 This version is completely rewritten using Python3 based on the most simple and basic requirements.
-A basic GUI written for GTK3 is available for parts of the functionality.
+A basic Tk GUI using Tkinter is under construction.
 
 Usage
 -----
@@ -27,6 +27,8 @@ This stdout/output-choice also exists in other modules.
 If you want to / can use the GUI, simply call `coding_gui.py`:
 
 	coding_gui.py
+
+(NOTE: there is a basic GUI using GTK3 for this module, but it is only kept for older sheets.)
 
 #### Export into readable formats ####
 
