@@ -29,10 +29,10 @@ def sum_numbers(answers):
 #the reference point is the top left corner, the current point is not altered
 def text_box(ctx,text,width,height):
 	refPoint = ctx.get_current_point()
-	refFontSize = ctx.font_extents()[0]
+	ctx.save()
 
 	extents = ctx.text_extents(text)
-	fontSize = refFontSize
+	fontSize = ctx.font_extents()[0]
 
 	while extents[2] > width or extents[3] > height:
 		ctx.set_font_size(fontSize)
@@ -47,8 +47,9 @@ def text_box(ctx,text,width,height):
 	#ctx.rectangle(refPoint[0],refPoint[1],width,height)
 
 	
-	ctx.set_font_size(refFontSize)
+	ctx.restore()
 	ctx.move_to(*refPoint)
+
 #creates the axis for a bardiagram
 #parameter: ctx = context obj, height = abs. height of the bardiagram, width = abs. width of the bardiagram
 #the reference point is the top left corner of bardiagram, the current point is not altered
@@ -58,7 +59,7 @@ def create_blank_bardiagram(ctx,width,height):
 	ctx.rel_move_to(0.1*width,0.1*height)   #TODO: Fancy arrowheads for the axis ends
 	ctx.rel_line_to(0,0.8*height)
 	ctx.rel_move_to(-0.1*width,-0.1*height)
-	ctx.rel_line_to(width,0)
+	ctx.rel_line_to(width*0.9,0)
 
 	ctx.move_to(*refPoint)
 
