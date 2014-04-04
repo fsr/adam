@@ -3,6 +3,7 @@
 import json
 import argparse
 import cairo
+from math import pi
 
 #returns the max value of all the answer numbers in one answers list, returns -1 if there is no answer
 def max_number(answers):
@@ -28,9 +29,10 @@ def sum_numbers(answers):
 #the reference point is the top left corner, the current point is not altered
 def text_box(ctx,text,width,height):
 	refPoint = ctx.get_current_point()
+	refFontSize = ctx.font_extents()[0]
 
 	extents = ctx.text_extents(text)
-	fontSize = ctx.font_extents()[0]
+	fontSize = refFontSize
 
 	while extents[2] > width or extents[3] > height:
 		ctx.set_font_size(fontSize)
@@ -41,11 +43,14 @@ def text_box(ctx,text,width,height):
 	midY = (refPoint[1] + (height/2)) - ((extents[3]/2) + extents[1])
 	ctx.move_to(midX,midY)
 	ctx.show_text(text)
+	#for positioning
+	#ctx.rectangle(refPoint[0],refPoint[1],width,height)
 
+	
+	ctx.set_font_size(refFontSize)
 	ctx.move_to(*refPoint)
-
 #creates the axis for a bardiagram
-#parameter: ctx = context obj, height = abs. height of the diagram, width = abs. width of the diagram
+#parameter: ctx = context obj, height = abs. height of the bardiagram, width = abs. width of the bardiagram
 #the reference point is the top left corner of bardiagram, the current point is not altered
 def create_blank_bardiagram(ctx,width,height):
 	refPoint = ctx.get_current_point()
@@ -59,7 +64,8 @@ def create_blank_bardiagram(ctx,width,height):
 
 
 #creates the labels of the y-axis
-#parameter: ctx = context obj., maxValue = the maximum value for the highest label, numberOfLabels = the number of labels that should be created, height = abs. height of the diagram, width = abs. width of the diagram
+#parameter: ctx = context obj., maxValue = the maximum value for the highest label, numberOfLabels = the number of labels that should be created, height = abs. height of the bardiagram, width = abs. width of the bardiagram
+#the reference point is the top left corner of bardiagram
 def y_axis_label(ctx,maxValue,numberOfLabels,width,height):
 	refPoint = ctx.get_current_point()
 
@@ -73,18 +79,32 @@ def y_axis_label(ctx,maxValue,numberOfLabels,width,height):
 			ctx.rel_line_to(0.05*width,0)
 
 			textPoint = ctx.get_current_point()
-			ctx.rel_move_to(-0.10*width,0.007*height)
-			ctx.show_text('{}'.format(int(value)))
+			ctx.rel_move_to(-0.11*width,-0.0235*height)
+			text_box(ctx,str(int(value)),0.05*width,0.05*height)
 			value += diffValue
 			ctx.move_to(*textPoint)
 
 	ctx.move_to(*refPoint)
 
 def x_axis_label(ctx,answers,width,height): 
-	#TODO: Implementation
-	return 0
+	refPoint = ctx.get_current_point()
+
+	yCursor = refPoint[0] + (0.15*width)
+	barWidth = width*(0.7 / len(answers))
+
+	ctx.rotate(-0.5*pi)
+
+	ctx.rel_move_to(0,yCursor)
+	ctx.rel_line_to(100,0)
+	
+
+
+	ctx.rotate(0.5*pi)
+
+	ctx.move_to(*refPoint)
 
 #adds the path for all bars
+#parameter: ctx = context obj, answers = list with answers, height = abs. height of the bardiagram, width = abs. width of the bardiagram
 def create_bars(ctx,answers,width,height):
 	refPoint = ctx.get_current_point()
 
@@ -108,14 +128,19 @@ def create_bardiagram(ctx,question,width,height):
 	#Only for help
 	curX = ctx.get_current_point()[0]
 	curY = ctx.get_current_point()[1]
-	ctx.rectangle(curX,curY,height,width)
+	ctx.rectangle(curX,curY,width,height)
 
 	#diagram
 	create_blank_bardiagram(ctx,width,height)
-	y_axis_label(ctx,max_number(question["answers"]),5,width,height)
+	y_axis_label(ctx,max_number(question["answers"]),4,width,height)
+	
+
+	#text	
+	#x_axis_label(ctx,question["question"],width,height)
 	ctx.rel_move_to(0.1*width,0)
 	text_box(ctx,question["question"],0.8*width,0.1*height)
 	ctx.stroke()
+
 	#bars
 	ctx.set_source_rgb(0.15,0.5,1.0)
 	ctx.move_to(curX,curY)
@@ -129,9 +154,6 @@ def create_report_pdf(reportJSON,outputfile):
 	ctx = cairo.Context(mySurface)
 	ctx.move_to(0,0)
 
-
-	
-
 	with open(reportJSON) as f:
 
 		report = json.load(f)
@@ -140,7 +162,7 @@ def create_report_pdf(reportJSON,outputfile):
 
 		for question in report:
 
-			create_bardiagram(ctx,question,842/3,595/2)
+			create_bardiagram(ctx,question,595/2,842/3)
 
 
 			#TODO: Put this in a function
@@ -157,12 +179,6 @@ def create_report_pdf(reportJSON,outputfile):
 
 			ctx.move_to(curX,curY)
 		
-	
-
-
-	
-		
-
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser(description="Takes a report.json and builds a .pdf")
