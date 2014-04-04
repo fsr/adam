@@ -63,7 +63,7 @@ if __name__ == '__main__':
 	parser.add_argument("-a", "--answers", nargs=1, help="answer types JSON", required=True)
 	parser.add_argument("-d", "--database", nargs=1, help="database containing table with the answers...", required=True)
 	parser.add_argument("-c", "--course", nargs=1, help="...for this course to generate the report on", required=True)
-	parser.add_argument("-o", "--output", nargs=1, help="HTML file the report is to be stored in")
+	parser.add_argument("-o", "--output", nargs=1, help="JSON file the report is to be stored in")
 	
 	args = parser.parse_args()
 	

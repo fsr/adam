@@ -50,7 +50,7 @@ if __name__ == '__main__':
 	parser.add_argument("-d","--database", nargs=1, help="The sqllite3 db for the output", required=True)
 	
 	parser_directory.add_argument("directory", nargs=1, help="One input directory")
-	parser_files.add_argument("importfile", nargs="+" ,help="1-Many imput .csv imports")
+	parser_files.add_argument("importfile", nargs="+" ,help="1-Many input .csv imports")
 
 	args = parser.parse_args()
 	db = args.database[0]
