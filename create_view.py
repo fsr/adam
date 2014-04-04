@@ -23,8 +23,31 @@ def sum_numbers(answers):
 
 	return sumNumbers
 
-#parameter: ctx = context Obj, height = abs. height of the dia, width = abs. width of the dia
-def create_blank_bardiagram(ctx,height,width):
+#scales a text down that is to big to fit the specified box 
+#parameter: ctx = context obj, height = abs. height of the box, width = abs. width of the box
+#the reference point is the top left corner, the current point is not altered
+def text_box(ctx,text,width,height):
+	refPoint = ctx.get_current_point()
+
+	extents = ctx.text_extents(text)
+	fontSize = ctx.font_extents()[0]
+
+	while extents[2] > width or extents[3] > height:
+		ctx.set_font_size(fontSize)
+		extents = ctx.text_extents(text)
+		fontSize -= 1
+
+	midX = (refPoint[0] + (width/2)) - ((extents[2]/2) + extents[0])
+	midY = (refPoint[1] + (height/2)) - ((extents[3]/2) + extents[1])
+	ctx.move_to(midX,midY)
+	ctx.show_text(text)
+
+	ctx.move_to(*refPoint)
+
+#creates the axis for a bardiagram
+#parameter: ctx = context obj, height = abs. height of the diagram, width = abs. width of the diagram
+#the reference point is the top left corner of bardiagram, the current point is not altered
+def create_blank_bardiagram(ctx,width,height):
 	refPoint = ctx.get_current_point()
 
 	ctx.rel_move_to(0.1*width,0.1*height)   #TODO: Fancy arrowheads for the axis ends
@@ -33,22 +56,19 @@ def create_blank_bardiagram(ctx,height,width):
 	ctx.rel_line_to(width,0)
 
 	ctx.move_to(*refPoint)
-	
-
-def textBox(ctx,height,width):
-	#TODO: Scales a text to a given box
-	return 0
 
 
-def y_axis_label(ctx,maxValue,numberOfValues,height,width):
+#creates the labels of the y-axis
+#parameter: ctx = context obj., maxValue = the maximum value for the highest label, numberOfLabels = the number of labels that should be created, height = abs. height of the diagram, width = abs. width of the diagram
+def y_axis_label(ctx,maxValue,numberOfLabels,width,height):
 	refPoint = ctx.get_current_point()
 
-	diffMarker = (0.9*(0.7*height)) / numberOfValues 
-	diffValue = maxValue / numberOfValues
+	diffMarker = (0.9*(0.7*height)) / numberOfLabels 
+	diffValue = maxValue / numberOfLabels
 	value = diffValue
 	ctx.rel_move_to(0.125*width,0.8*height)
 
-	for _ in range(numberOfValues):
+	for _ in range(numberOfLabels):
 			ctx.rel_move_to(-0.05*width,-diffMarker)
 			ctx.rel_line_to(0.05*width,0)
 
@@ -60,13 +80,12 @@ def y_axis_label(ctx,maxValue,numberOfValues,height,width):
 
 	ctx.move_to(*refPoint)
 
-
-
-def x_axis_label(ctx,answers,height,width): 
+def x_axis_label(ctx,answers,width,height): 
 	#TODO: Implementation
 	return 0
 
-def create_bars(ctx,answers,height,width):
+#adds the path for all bars
+def create_bars(ctx,answers,width,height):
 	refPoint = ctx.get_current_point()
 
 	barWidth = width*(0.7 / len(answers))
@@ -83,26 +102,33 @@ def create_bars(ctx,answers,height,width):
 	ctx.move_to(*refPoint)
 
 
-
-def create_bardiagram(ctx,question,height,width):
+#creates a simpel bardiagram
+def create_bardiagram(ctx,question,width,height):
 	
+	#Only for help
 	curX = ctx.get_current_point()[0]
 	curY = ctx.get_current_point()[1]
-
 	ctx.rectangle(curX,curY,height,width)
-	create_blank_bardiagram(ctx,height,width)
-	y_axis_label(ctx,max_number(question["answers"]),5,height,width)
-	create_bars(ctx,question["answers"],height,width)
 
+	#diagram
+	create_blank_bardiagram(ctx,width,height)
+	y_axis_label(ctx,max_number(question["answers"]),5,width,height)
+	ctx.rel_move_to(0.1*width,0)
+	text_box(ctx,question["question"],0.8*width,0.1*height)
 	ctx.stroke()
+	#bars
+	ctx.set_source_rgb(0.15,0.5,1.0)
+	ctx.move_to(curX,curY)
+	create_bars(ctx,question["answers"],width,height)
+	ctx.fill()
+	ctx.set_source_rgb(0.0,0.0,0.0)
 
 	
-
-
 def create_report_pdf(reportJSON,outputfile):
 	mySurface = cairo.PDFSurface(outputfile,595,842)
 	ctx = cairo.Context(mySurface)
 	ctx.move_to(0,0)
+
 
 	
 
@@ -114,17 +140,19 @@ def create_report_pdf(reportJSON,outputfile):
 
 		for question in report:
 
-			create_bardiagram(ctx,question, 595/2,842/3)
+			create_bardiagram(ctx,question,842/3,595/2)
 
 
-			#TODO: Put this in a function, add multiple page support
+			#TODO: Put this in a function
 			curX  += 595/2
 			if curX >= 595:
 				curX = 0
 				curY += 842/3
 
 			if curY >= 842:
-				print("New Page!")
+				ctx.show_page()
+				curX = 0
+				curY = 0
 
 
 			ctx.move_to(curX,curY)
