@@ -45,6 +45,8 @@ def text_box(ctx,text,width,height):
 	ctx.show_text(text)
 	#for positioning
 	#ctx.rectangle(refPoint[0],refPoint[1],width,height)
+	#ctx.rel_move_to(width*0.5,0)
+	#ctx.rel_line_to(0,-height*0.8)
 
 	
 	ctx.restore()
@@ -93,7 +95,7 @@ def x_axis_label(ctx,answers,width,height):
 
 	barWidth = width*(0.7 / len(answers))
 
-	#positioning of the coordsystem
+	#positioning of the coordinatesystem
 	ctx.translate(refPoint[0]+(0.15*width),refPoint[1]+(0.99*height))
 	ctx.rotate(-pi*0.5)
 	ctx.move_to(0,0)
@@ -106,6 +108,33 @@ def x_axis_label(ctx,answers,width,height):
 		ctx.rel_move_to(0,barWidth)
 	
 
+
+	ctx.restore()
+	ctx.move_to(*refPoint)
+
+def x_axis_label_layers(ctx,answers,width,height):
+	refPoint = ctx.get_current_point()
+	ctx.save()
+
+	barWidth = width*(0.7 / len(answers))
+	
+	moveDown = True
+	ctx.rel_move_to((width*0.15) - (barWidth*0.4),(height*0.8))
+
+	for answer in answers:
+		text_box(ctx,answer["text"],barWidth*1.6,height*0.1)
+	
+		if moveDown == True:
+			ctx.rel_move_to(barWidth,height*0.05)
+			moveDown = False
+
+		else:	
+			ctx.set_line_width(0.01)
+			ctx.rel_move_to(barWidth*0.8,0)
+			ctx.rel_line_to(0,-(height*0.05))
+			ctx.rel_move_to(0,(height*0.05))
+			ctx.rel_move_to(barWidth*0.2,-(height*0.05))
+			moveDown = True
 
 	ctx.restore()
 	ctx.move_to(*refPoint)
@@ -145,7 +174,7 @@ def create_bardiagram(ctx,question,width,height):
 	#text	
 	ctx.save()
 	ctx.set_font_size(8)
-	x_axis_label(ctx,question["answers"],width,height)
+	x_axis_label_layers(ctx,question["answers"],width,height)
 	ctx.restore()
 	ctx.rel_move_to(0.1*width,0)
 	text_box(ctx,question["question"],0.8*width,0.1*height)
