@@ -89,19 +89,25 @@ def y_axis_label(ctx,maxValue,numberOfLabels,width,height):
 
 def x_axis_label(ctx,answers,width,height): 
 	refPoint = ctx.get_current_point()
+	ctx.save()
 
-	yCursor = refPoint[0] + (0.15*width)
 	barWidth = width*(0.7 / len(answers))
 
-	ctx.rotate(-0.5*pi)
-
-	ctx.rel_move_to(0,yCursor)
-	ctx.rel_line_to(100,0)
+	#positioning of the coordsystem
+	ctx.translate(refPoint[0]+(0.15*width),refPoint[1]+(0.99*height))
+	ctx.rotate(-pi*0.5)
+	ctx.move_to(0,0)
+	
+	for answer in answers:
+		#string cutting for strings >20 chars
+		#text = (answer["text"][:20] + '..') if len(answer["text"]) > 20 else answer["text"]
+		text = answer["text"]
+		text_box(ctx,text,0.18*height,barWidth*0.8)
+		ctx.rel_move_to(0,barWidth)
 	
 
 
-	ctx.rotate(0.5*pi)
-
+	ctx.restore()
 	ctx.move_to(*refPoint)
 
 #adds the path for all bars
@@ -125,7 +131,7 @@ def create_bars(ctx,answers,width,height):
 
 #creates a simpel bardiagram
 def create_bardiagram(ctx,question,width,height):
-	
+	ctx.save()
 	#Only for help
 	curX = ctx.get_current_point()[0]
 	curY = ctx.get_current_point()[1]
@@ -137,9 +143,14 @@ def create_bardiagram(ctx,question,width,height):
 	
 
 	#text	
-	#x_axis_label(ctx,question["question"],width,height)
+	ctx.save()
+	ctx.set_font_size(8)
+	x_axis_label(ctx,question["answers"],width,height)
+	ctx.restore()
 	ctx.rel_move_to(0.1*width,0)
 	text_box(ctx,question["question"],0.8*width,0.1*height)
+	#ctx.set_font_size(9)
+	
 	ctx.stroke()
 
 	#bars
@@ -147,8 +158,7 @@ def create_bardiagram(ctx,question,width,height):
 	ctx.move_to(curX,curY)
 	create_bars(ctx,question["answers"],width,height)
 	ctx.fill()
-	ctx.set_source_rgb(0.0,0.0,0.0)
-
+	ctx.restore()
 	
 def create_report_pdf(reportJSON,outputfile):
 	mySurface = cairo.PDFSurface(outputfile,595,842)
