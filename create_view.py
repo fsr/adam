@@ -174,11 +174,10 @@ def create_bardiagram(ctx,question,width,height):
 	#text	
 	ctx.save()
 	ctx.set_font_size(8)
-	x_axis_label_layers(ctx,question["answers"],width,height)
+	x_axis_label(ctx,question["answers"],width,height)
 	ctx.restore()
 	ctx.rel_move_to(0.1*width,0)
 	text_box(ctx,question["question"],0.8*width,0.1*height)
-	#ctx.set_font_size(9)
 	
 	ctx.stroke()
 
