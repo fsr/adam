@@ -50,7 +50,7 @@ def get_question(database,table,question,filters,numberoftypes):
 
 		cur = con.cursor()
 
-		cur.execute("SELECT {} From {} {}".format(question,table,create_whereString(filters)))
+		cur.execute("SELECT {} FROM {} {};".format(question,table,create_whereString(filters)))
 		values = cur.fetchall()
 
 		result = []
@@ -64,3 +64,9 @@ def get_question(database,table,question,filters,numberoftypes):
 				result[-1] += 1
 
 		return result
+
+def get_courses(database):
+	with lite.connect("{}".format(database)) as con:
+		cur = con.cursor()
+		cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
+		return list(map(lambda x: x[0], cur.fetchall()))
