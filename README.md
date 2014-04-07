@@ -67,7 +67,8 @@ containing all information that is needed to render a report:
 	                    -q example_files/eva_questions_pre_SS14.json \
 	                    -a example_files/eva_answertypes.json \
 	                    -d TestDB.db \
-	                    -c HerrProfMustermannVKursXYZCSV
+	                    -c HerrProfMustermannVKursXYZCSV \
+	         (optional) -o output.json 
 
 ### Create SVG Diagrams ###
 

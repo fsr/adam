@@ -3,33 +3,154 @@
 		"type": "simple",
 		"view": "bardiagram",
 		"question": "F1",
-		"filter": [
-			{
-				"type": "eq",
-				"key": "Geschlecht",
-				"value": "1"
-			}
-		],
-		"comment": "Answers from female students for question 1 as a bar diagram"
+		"filter": [],
+		"comment": "A Test"
 	},
-	{
+		{
 		"type": "simple",
 		"view": "bardiagram",
-		"question": "F27",
-		"filter": [
-			{
-				"type": "eq",
-				"key": "?code",
-				"value": "4"
-			}
-		],
-		"comment": "Question 27 for tutor with code 4 (00100) as a bar diagram"
+		"question": "F2",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F3",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F4",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F5",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F6",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F7",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F8",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F9",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F10",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F11",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F12",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F13",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F14",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F15",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F16",
+		"filter": [],
+		"comment": "A Test"
 	},
 	{
 		"type": "simple",
 		"view": "bardiagram",
 		"question": "F17",
 		"filter": [],
-		"comment": "Why do people take this course?"
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F18",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F19",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F20",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F21",
+		"filter": [],
+		"comment": "A Test"
+	},
+		{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F22",
+		"filter": [],
+		"comment": "A Test"
 	}
 ]

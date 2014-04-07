@@ -1,7 +1,9 @@
-#!usr/bin/python
+#!/usr/bin/python
 
 import json
 import argparse
+import cairo
+from math import pi
 
 #returns the max value of all the answer numbers in one answers list, returns -1 if there is no answer
 def max_number(answers):
@@ -22,85 +24,208 @@ def sum_numbers(answers):
 
 	return sumNumbers
 
+#scales a text down that is to big to fit the specified box 
+#parameter: ctx = context obj, height = abs. height of the box, width = abs. width of the box
+#the reference point is the top left corner, the current point is not altered
+def text_box(ctx,text,width,height):
+	refPoint = ctx.get_current_point()
+	ctx.save()
 
+	extents = ctx.text_extents(text)
+	fontSize = ctx.font_extents()[0]
 
-def create_blank_bardiagram(height,width):
-	svg = '<g id="diagram">'
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="0" x2="{0}" y1="{1}" y2="{1}" />\n'.format(width,height*0.9)
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="{0}" x2="{0}" y1="0" y2="{1}" />\n'.format(width*0.1,height)
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="{0}" x2="{1}" y1="{2}" y2="{2}" />\n'.format(width*0.09,width*0.11,height*0.7)
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="{0}" x2="{1}" y1="{2}" y2="{2}" />\n'.format(width*0.09,width*0.11,height*0.5)
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="{0}" x2="{1}" y1="{2}" y2="{2}" />\n'.format(width*0.09,width*0.11,height*0.3)
-	svg += '<line stroke="rgb(10%,10%,16%)" x1="{0}" x2="{1}" y1="{2}" y2="{2}" />\n'.format(width*0.09,width*0.11,height*0.1)
-	svg += '</g>'
+	while extents[2] > width or extents[3] > height:
+		ctx.set_font_size(fontSize)
+		extents = ctx.text_extents(text)
+		fontSize -= 1
+
+	midX = (refPoint[0] + (width/2)) - ((extents[2]/2) + extents[0])
+	midY = (refPoint[1] + (height/2)) - ((extents[3]/2) + extents[1])
+	ctx.move_to(midX,midY)
+	ctx.show_text(text)
+	#for positioning
+	#ctx.rectangle(refPoint[0],refPoint[1],width,height)
+	#ctx.rel_move_to(width*0.5,0)
+	#ctx.rel_line_to(0,-height*0.8)
+
 	
-	return svg
+	ctx.restore()
+	ctx.move_to(*refPoint)
 
-def y_axis_name(maxValue,numberOfValues,height,width):
-	cursor = 0
+#creates the axis for a bardiagram
+#parameter: ctx = context obj, height = abs. height of the bardiagram, width = abs. width of the bardiagram
+#the reference point is the top left corner of bardiagram, the current point is not altered
+def create_blank_bardiagram(ctx,width,height):
+	refPoint = ctx.get_current_point()
 
-	svg = '<g id="yAxisLegend">'
-	svg += '<text x="{}" y="{}">{:.0f}</text> \n'.format(width*0.05,height*0.705,maxValue*0.25)
-	svg += '<text x="{}" y="{}">{:.0f}</text> \n'.format(width*0.05,height*0.505,maxValue*0.5)
-	svg += '<text x="{}" y="{}">{:.0f}</text> \n'.format(width*0.05,height*0.305,maxValue*0.75)
-	svg += '<text x="{}" y="{}">{:.0f}</text> \n'.format(width*0.05,height*0.105,maxValue)
-	svg += '</g>'
+	ctx.rel_move_to(0.1*width,0.1*height)   #TODO: Fancy arrowheads for the axis ends
+	ctx.rel_line_to(0,0.8*height)
+	ctx.rel_move_to(-0.1*width,-0.1*height)
+	ctx.rel_line_to(width*0.9,0)
 
-	return svg
+	ctx.move_to(*refPoint)
 
-def x_axis_bars(answers,height,width): #TODO: Bars und Beschriftung auseinanderfummeln
-	barProcent = width*(0.7 / len(answers))
-	scale = (1/max_number(answers)) * (height * 0.8)
-	cursor = width*0.12
-	svg = '<g id="bars">'
-	#textLength="{2}"
+
+#creates the labels of the y-axis
+#parameter: ctx = context obj., maxValue = the maximum value for the highest label, numberOfLabels = the number of labels that should be created, height = abs. height of the bardiagram, width = abs. width of the bardiagram
+#the reference point is the top left corner of bardiagram
+def y_axis_label(ctx,maxValue,numberOfLabels,width,height):
+	refPoint = ctx.get_current_point()
+
+	diffMarker = (0.9*(0.7*height)) / numberOfLabels 
+	diffValue = maxValue / numberOfLabels
+	value = diffValue
+	ctx.rel_move_to(0.125*width,0.8*height)
+
+	for _ in range(numberOfLabels):
+			ctx.rel_move_to(-0.05*width,-diffMarker)
+			ctx.rel_line_to(0.05*width,0)
+
+			textPoint = ctx.get_current_point()
+			ctx.rel_move_to(-0.11*width,-0.0235*height)
+			text_box(ctx,str(int(value)),0.05*width,0.05*height)
+			value += diffValue
+			ctx.move_to(*textPoint)
+
+	ctx.move_to(*refPoint)
+
+def x_axis_label(ctx,answers,width,height): 
+	refPoint = ctx.get_current_point()
+	ctx.save()
+
+	barWidth = width*(0.7 / len(answers))
+
+	#positioning of the coordinatesystem
+	ctx.translate(refPoint[0]+(0.15*width),refPoint[1]+(0.99*height))
+	ctx.rotate(-pi*0.5)
+	ctx.move_to(0,0)
+	
 	for answer in answers:
-		barheight = answer["number"] * scale
-		svg += '<text x="{0}" y="{1}" textLength="50" lengthAdjust="spacing" >{3}</text> \n'.format(cursor,height*0.95,height*0.1,answer["text"])
-		svg +='<rect x="{0}" y="{1}" width="{2}" height="{3}" style="fill:rgb(0,0,139);" />\n'.format(cursor,(height*0.9)-barheight,barProcent*0.8,barheight)
-		cursor += barProcent
-
-	svg += "</g>"
-	return svg
-
-	
-
-def create_bardiagram(question,height,width):
-	svg ='<svg baseProfile="tiny" height="100%" version="1.2" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs />\n'
-	svg += create_blank_bardiagram(height,width)
-	svg += y_axis_name(max_number(question["answers"]),4,height,width)
-	svg += x_axis_bars(question["answers"],height,width)
-	svg += '</svg>'
-	return svg
+		#string cutting for strings >20 chars
+		#text = (answer["text"][:20] + '..') if len(answer["text"]) > 20 else answer["text"]
+		text = answer["text"]
+		text_box(ctx,text,0.18*height,barWidth*0.8)
+		ctx.rel_move_to(0,barWidth)
 	
 
 
-def create_report_svg(reportJSON,outputfile):
+	ctx.restore()
+	ctx.move_to(*refPoint)
+
+def x_axis_label_layers(ctx,answers,width,height):
+	refPoint = ctx.get_current_point()
+	ctx.save()
+
+	barWidth = width*(0.7 / len(answers))
+	
+	moveDown = True
+	ctx.rel_move_to((width*0.15) - (barWidth*0.4),(height*0.8))
+
+	for answer in answers:
+		text_box(ctx,answer["text"],barWidth*1.6,height*0.1)
+	
+		if moveDown == True:
+			ctx.rel_move_to(barWidth,height*0.05)
+			moveDown = False
+
+		else:	
+			ctx.set_line_width(0.01)
+			ctx.rel_move_to(barWidth*0.8,0)
+			ctx.rel_line_to(0,-(height*0.05))
+			ctx.rel_move_to(0,(height*0.05))
+			ctx.rel_move_to(barWidth*0.2,-(height*0.05))
+			moveDown = True
+
+	ctx.restore()
+	ctx.move_to(*refPoint)
+
+#adds the path for all bars
+#parameter: ctx = context obj, answers = list with answers, height = abs. height of the bardiagram, width = abs. width of the bardiagram
+def create_bars(ctx,answers,width,height):
+	refPoint = ctx.get_current_point()
+
+	barWidth = width*(0.7 / len(answers))
+	scaleFactor =  (0.9*(0.7*height)) /max_number(answers)
+	xCursor = refPoint[0] + (0.15*width)
+
+	for answer in answers:
+
+		barHeight = answer["number"] * scaleFactor
+		yCursor =  refPoint[1]+((0.8*height)-barHeight)
+		ctx.rectangle(xCursor,yCursor,barWidth*0.8,barHeight)
+		xCursor += barWidth
+
+	ctx.move_to(*refPoint)
+
+
+#creates a simpel bardiagram
+def create_bardiagram(ctx,question,width,height):
+	ctx.save()
+	#Only for help
+	curX = ctx.get_current_point()[0]
+	curY = ctx.get_current_point()[1]
+	ctx.rectangle(curX,curY,width,height)
+
+	#diagram
+	create_blank_bardiagram(ctx,width,height)
+	y_axis_label(ctx,max_number(question["answers"]),4,width,height)
+	
+
+	#text	
+	ctx.save()
+	ctx.set_font_size(8)
+	x_axis_label(ctx,question["answers"],width,height)
+	ctx.restore()
+	ctx.rel_move_to(0.1*width,0)
+	text_box(ctx,question["question"],0.8*width,0.1*height)
+	
+	ctx.stroke()
+
+	#bars
+	ctx.set_source_rgb(0.15,0.5,1.0)
+	ctx.move_to(curX,curY)
+	create_bars(ctx,question["answers"],width,height)
+	ctx.fill()
+	ctx.restore()
+	
+def create_report_pdf(reportJSON,outputfile):
+	mySurface = cairo.PDFSurface(outputfile,595,842)
+	ctx = cairo.Context(mySurface)
+	ctx.move_to(0,0)
 
 	with open(reportJSON) as f:
 
 		report = json.load(f)
-		i = 0
-		html = '<html><head><title>A report</title></head><body>\n <ul> \n'
+		curX = 0
+		curY = 0
 
 		for question in report:
 
-			html += '<li>\n'
-			html += '<h1>{}</h1>\n'.format(question["question"])
-			html += create_bardiagram(question,700,700)
-			html += '</li>\n'
+			create_bardiagram(ctx,question,595/2,842/3)
 
-		html += '<ul>\n</body>\n</html>'
-		with open(outputfile,'w') as f:
-			f.write(html)
 
+			#TODO: Put this in a function
+			curX  += 595/2
+			if curX >= 595:
+				curX = 0
+				curY += 842/3
+
+			if curY >= 842:
+				ctx.show_page()
+				curX = 0
+				curY = 0
+
+
+			ctx.move_to(curX,curY)
+		
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser(description="Takes a report.json and builds a .svg")
+	parser = argparse.ArgumentParser(description="Takes a report.json and builds a .pdf")
 	parser.add_argument("-i","--input", nargs=1, help="The report.json inputfile", required=True)
-	parser.add_argument("-o","--output", nargs=1, help="The output .html file", required=True)
+	parser.add_argument("-o","--output", nargs=1, help="The output .pdf file", required=True)
 
 	args = parser.parse_args()
 
+	create_report_pdf(args.input[0],args.output[0])
 
-	create_report_svg(args.input[0],args.output[0])
+
