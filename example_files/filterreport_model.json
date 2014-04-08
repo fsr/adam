@@ -1,0 +1,35 @@
+[
+	{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F1",
+		"filter": [
+			{
+				"type": "eq",
+				"key": "Geschlecht",
+				"value": "1"
+			}
+		],
+		"comment": "Answers from female students for question 1 as a bar diagram"
+	},
+	{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F27",
+		"filter": [
+			{
+				"type": "eq",
+				"key": "?code",
+				"value": "4"
+			}
+		],
+		"comment": "Question 27 for tutor with code 4 (00100) as a bar diagram"
+	},
+	{
+		"type": "simple",
+		"view": "bardiagram",
+		"question": "F17",
+		"filter": [],
+		"comment": "Why do people take this course?"
+	}
+]
