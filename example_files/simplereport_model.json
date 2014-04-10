@@ -104,13 +104,6 @@
 		"filter": [],
 		"comment": "A Test"
 	},
-		{
-		"type": "simple",
-		"view": "bardiagram",
-		"question": "F16",
-		"filter": [],
-		"comment": "A Test"
-	},
 	{
 		"type": "simple",
 		"view": "bardiagram",
@@ -132,14 +125,7 @@
 		"filter": [],
 		"comment": "A Test"
 	},
-		{
-		"type": "simple",
-		"view": "bardiagram",
-		"question": "F20",
-		"filter": [],
-		"comment": "A Test"
-	},
-		{
+	{
 		"type": "simple",
 		"view": "bardiagram",
 		"question": "F21",
