@@ -140,7 +140,7 @@ def x_axis_label_layers(ctx,answers,width,height):
 	ctx.move_to(*refPoint)
 
 #adds the path for all bars
-#parameter: ctx = context obj, answers = list with answers, height = abs. height of the bardiagram, width = abs. width of the bardiagram
+#parameter: ctx = context obj, answers = list with answers, 
 def create_bars(ctx,answers,width,height):
 	refPoint = ctx.get_current_point()
 
@@ -159,9 +159,11 @@ def create_bars(ctx,answers,width,height):
 
 
 #creates a simpel bardiagram
+#parameter: ctx = context Obj, question = one question object, width = abs. width of the bardiagram, height = abs. height of the bardiagram
 def create_bardiagram(ctx,question,width,height):
+	refPoint = ctx.get_current_point()
 	ctx.save()
-	#Only for help
+	#Only for help TODO: Remove this block
 	curX = ctx.get_current_point()[0]
 	curY = ctx.get_current_point()[1]
 	ctx.rectangle(curX,curY,width,height)
@@ -183,10 +185,46 @@ def create_bardiagram(ctx,question,width,height):
 
 	#bars
 	ctx.set_source_rgb(0.15,0.5,1.0)
-	ctx.move_to(curX,curY)
+	ctx.move_to(*refPoint)
 	create_bars(ctx,question["answers"],width,height)
+
 	ctx.fill()
+
 	ctx.restore()
+	ctx.move_to(*refPoint)
+
+
+
+def create_cakediagram(ctx,question,width,height):
+	refPoint = ctx.get_current_point()
+	ctx.save()
+
+	#TODO: Remove this block
+	curX = ctx.get_current_point()[0]
+	curY = ctx.get_current_point()[1]
+	ctx.rectangle(curX,curY,width,height)
+
+	radius = width if width < height else height
+	radius *= 0.45
+
+	ctx.rel_move_to((width/2),(height/2))
+	centerPoint = ctx.get_current_point()
+	scaleFactor = (2*pi) / sum_numbers(question["answers"])
+	arcStart = 0 
+
+	for answer in question["answers"]:
+
+		arcEnd = arcStart + (answer["number"]*scaleFactor)
+		ctx.arc(centerPoint[0],centerPoint[1],radius,arcStart,arcEnd)
+		ctx.line_to(*centerPoint)
+
+		ctx.stroke()		
+		arcStart = arcEnd
+
+
+
+	ctx.restore()
+	ctx.move_to(*refPoint)
 	
 def create_report_pdf(reportJSON,outputfile):
 	mySurface = cairo.PDFSurface(outputfile,595,842)
@@ -201,8 +239,10 @@ def create_report_pdf(reportJSON,outputfile):
 
 		for question in report:
 
-			create_bardiagram(ctx,question,595/2,842/3)
-
+			if(question["view"] == "bardiagram"):
+				create_bardiagram(ctx,question,595/2,842/3)
+			if(question["view"] == "cakediagram"):
+				create_cakediagram(ctx,question,595/2,842/3)
 
 			#TODO: Put this in a function
 			curX  += 595/2
@@ -211,7 +251,7 @@ def create_report_pdf(reportJSON,outputfile):
 				curY += 842/3
 
 			if curY >= 842:
-				ctx.show_page()
+				ctx.show_page() # creates a new page
 				curX = 0
 				curY = 0
 

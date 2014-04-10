@@ -70,11 +70,11 @@ containing all information that is needed to render a report:
 	                    -c HerrProfMustermannVKursXYZCSV \
 	         (optional) -o output.json 
 
-### Create SVG Diagrams ###
+### Create Diagrams ###
 
-'create_view.py' takesa report.json that was created using 'construct_report.py' and outputs the created svg diagrams into a .html document.
+'create_view.py' takes a report.json that was created using 'construct_report.py' and outputs the created diagrams into a .pdf document.
 
 	# importing a report.json
-	create_view.py -i someReport.json -o someOutput.html
+	create_view.py -i someReport.json -o someOutput.pdf
 
 
