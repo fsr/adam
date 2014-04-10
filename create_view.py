@@ -4,6 +4,8 @@ import json
 import argparse
 import cairo
 from math import pi
+#         white          light blue      light green     light violet	   light brown  light yellow    blue             green 			grey
+color = [(0.0,0.0,0.0),(0.706,1,0.412),(0.412,0.706,1),(0.706,0.412,1),(1,0.706,0.412),(1,1,0.412),(0.412,0.412,1),(0.412,1,0.412),(0.412,0.412,0.412)]
 
 #returns the max value of all the answer numbers in one answers list, returns -1 if there is no answer
 def max_number(answers):
@@ -48,7 +50,6 @@ def text_box(ctx,text,width,height):
 	#ctx.rel_move_to(width*0.5,0)
 	#ctx.rel_line_to(0,-height*0.8)
 
-	
 	ctx.restore()
 	ctx.move_to(*refPoint)
 
@@ -107,8 +108,6 @@ def x_axis_label(ctx,answers,width,height):
 		text_box(ctx,text,0.18*height,barWidth*0.8)
 		ctx.rel_move_to(0,barWidth)
 	
-
-
 	ctx.restore()
 	ctx.move_to(*refPoint)
 
@@ -209,17 +208,28 @@ def create_cakediagram(ctx,question,width,height):
 
 	ctx.rel_move_to((width/2),(height/2))
 	centerPoint = ctx.get_current_point()
+	ctx.close_path()
+	ctx.move_to(*centerPoint)
 	scaleFactor = (2*pi) / sum_numbers(question["answers"])
-	arcStart = 0 
+	arcStart = 0
+	i = 0 
 
 	for answer in question["answers"]:
+		ctx.save()
 
 		arcEnd = arcStart + (answer["number"]*scaleFactor)
 		ctx.arc(centerPoint[0],centerPoint[1],radius,arcStart,arcEnd)
 		ctx.line_to(*centerPoint)
-
-		ctx.stroke()		
 		arcStart = arcEnd
+
+		ctx.set_source_rgb(*color[i])
+		ctx.stroke()
+
+		i += 1
+		if i >= len(color):
+			i = 0		
+	
+		ctx.restore()
 
 
 
