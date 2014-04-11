@@ -4,8 +4,8 @@ import json
 import argparse
 import cairo
 from math import pi
-#         white          light blue      light green     light violet	   light brown  light yellow    blue             green 			grey
-color = [(0.0,0.0,0.0),(0.706,1,0.412),(0.412,0.706,1),(0.706,0.412,1),(1,0.706,0.412),(1,1,0.412),(0.412,0.412,1),(0.412,1,0.412),(0.412,0.412,0.412)]
+#          light blue      light green     light violet	   light brown  light yellow    blue             green 			    grey
+color = [(0.706,1,0.412),(0.412,0.706,1),(0.706,0.412,1),(1,0.706,0.412),(1,1,0.412),(0.412,0.412,1),(0.412,1,0.412),(0.412,0.412,0.412)]
 
 #returns the max value of all the answer numbers in one answers list, returns -1 if there is no answer
 def max_number(answers):
@@ -208,7 +208,7 @@ def create_cakediagram(ctx,question,width,height):
 
 	ctx.rel_move_to((width/2),(height/2))
 	centerPoint = ctx.get_current_point()
-	ctx.close_path()
+	ctx.stroke()
 	ctx.move_to(*centerPoint)
 	scaleFactor = (2*pi) / sum_numbers(question["answers"])
 	arcStart = 0
@@ -223,7 +223,7 @@ def create_cakediagram(ctx,question,width,height):
 		arcStart = arcEnd
 
 		ctx.set_source_rgb(*color[i])
-		ctx.stroke()
+		ctx.fill()
 
 		i += 1
 		if i >= len(color):
