@@ -14,7 +14,7 @@ def create_table(tableName, inputfile, db):
 		with lite.connect("{}".format(db)) as con:
 
 			cur = con.cursor()
-			
+
 			# Name the table columns
 			cur.execute("DROP TABLE IF EXISTS {}".format(tableName))
 			types = ""
@@ -41,14 +41,14 @@ def insert_directory(directory,database):
 
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser(description="Import .csv import into a sqllite3 database.")
+	parser = argparse.ArgumentParser(description="Import .csv import into a sqlite3 database.")
 	subparser = parser.add_subparsers(dest="type")
 
 	parser_directory = subparser.add_parser("dir")
 	parser_files =  subparser.add_parser("file")
 
-	parser.add_argument("-d","--database", nargs=1, help="The sqllite3 db for the output", required=True)
-	
+	parser.add_argument("-d","--database", nargs=1, help="The sqlite3 db for the output", required=True)
+
 	parser_directory.add_argument("directory", nargs=1, help="One input directory")
 	parser_files.add_argument("importfile", nargs="+" ,help="1-Many input .csv imports")
 
