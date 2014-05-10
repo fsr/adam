@@ -66,10 +66,11 @@ def parse_course_data_from_file(f):
             'fri':4
             }
 		
-		if not exercise[0] in weekdays: 
+		
+		if not exercise[0].lower() in weekdays: 
 			raise Exception("Weekday '" + exercise[0] + "' is not valid")
 		else:
-			weekday = weekdays[exercise[0]]
+			weekday = weekdays[exercise[0].lower()]
 		
 		courses[-1]["tutors"][-1]["exercises"].append(
 			{"day": weekday, "time": int(exercise[1].strip()[:1]), "place": exercise[2].strip()})
