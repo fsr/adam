@@ -39,12 +39,37 @@ def parse_course_data_from_file(f):
 		exercise = line.strip().split(",",-1)
 		if len(exercise) != 3: raise Exception("Line '" + line + "'is not a valid exercise")
 		
-		if   exercise[0] in ["Monday",    "Montag",     "Mo", "Mo", "Mon"]: weekday = 0
-		elif exercise[0] in ["Tuesday",   "Dienstag",   "Tu", "Di", "Tue"]: weekday = 1
-		elif exercise[0] in ["Wednesday", "Mittwoch",   "We", "Mi", "Wed"]: weekday = 2
-		elif exercise[0] in ["Thursday",  "Donnerstag", "Th", "Do", "Thu"]: weekday = 3
-		elif exercise[0] in ["Friday",    "Freitag",    "Fr", "Fr", "Fri"]: weekday = 4
-		else: raise Exception("Weekday '" + exercise[0] + "' is not valid")
+		#Creating Dictionary for Weekday conversion
+		weekdays = {
+            'monday':0,
+            'montag':0,
+            'mo':0,
+            'mon':0,
+            'tuesday':1,
+            'dienstag':1,
+            'tu':1,
+            'di':1,
+            'tue':1,
+            'wednesday':2,
+            'mittwoch':2,
+            'we':2,
+            'mi':2,
+            'wed':2,
+            'thursday':3,
+            'donnerstag':3,
+            'do':3,
+            'th':3,
+            'thu':3,
+            'friday':4,
+            'freitag':4,
+            'fr':4,
+            'fri':4
+            }
+		
+		if not exercise[0] in weekdays: 
+			raise Exception("Weekday '" + exercise[0] + "' is not valid")
+		else:
+			weekday = weekdays[exercise[0]]
 		
 		courses[-1]["tutors"][-1]["exercises"].append(
 			{"day": weekday, "time": int(exercise[1].strip()[:1]), "place": exercise[2].strip()})
