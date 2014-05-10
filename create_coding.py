@@ -41,32 +41,32 @@ def parse_course_data_from_file(f):
 		
 		#Creating Dictionary for Weekday conversion
 		weekdays = {
-            'monday':0,
-            'montag':0,
-            'mo':0,
-            'mon':0,
-            'tuesday':1,
-            'dienstag':1,
-            'tu':1,
-            'di':1,
-            'tue':1,
-            'wednesday':2,
-            'mittwoch':2,
-            'we':2,
-            'mi':2,
-            'wed':2,
-            'thursday':3,
-            'donnerstag':3,
-            'do':3,
-            'th':3,
-            'thu':3,
-            'friday':4,
-            'freitag':4,
-            'fr':4,
-            'fri':4
-            }
+			'monday':0,
+			'montag':0,
+			'mo':0,
+			'mon':0,
+			'tuesday':1,
+			'dienstag':1,
+			'tu':1,
+			'di':1,
+			'tue':1,
+			'wednesday':2,
+			'mittwoch':2,
+			'we':2,
+			'mi':2,
+			'wed':2,
+			'thursday':3,
+			'donnerstag':3,
+			'do':3,
+			'th':3,
+			'thu':3,
+			'friday':4,
+			'freitag':4,
+			'fr':4,
+			'fri':4
+			}
 		
-		
+		#Handle cases with illegal weekdays
 		if not exercise[0].lower() in weekdays: 
 			raise Exception("Weekday '" + exercise[0] + "' is not valid")
 		else:
